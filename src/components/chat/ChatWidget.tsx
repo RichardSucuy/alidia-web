@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -13,19 +13,22 @@ type RateLimitInfo = {
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
-
-  // Estado persistente en sesión (mientras no se recargue)
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content:
-        'Hola, soy el asistente informativo de ALIDIA. Puedo contarte qué hacemos, nuestros proyectos y cómo conectar.',
+      content: 'Hola, soy el asistente de ALIDIA. 🌟 ¿En qué puedo ayudarte hoy?',
     },
   ]);
-
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [rateLimit, setRateLimit] = useState<RateLimitInfo | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll al recibir mensajes
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, loading]);
 
   async function sendMessage() {
     const text = input.trim();
@@ -33,7 +36,6 @@ export function ChatWidget() {
 
     setInput('');
     setLoading(true);
-
     const nextMessages: Message[] = [...messages, { role: 'user', content: text }];
     setMessages(nextMessages);
 
@@ -41,129 +43,118 @@ export function ChatWidget() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history: nextMessages.slice(-10),
-        }),
+        body: JSON.stringify({ message: text, history: nextMessages.slice(-6) }),
       });
-
       const data = await res.json();
+      if (!res.ok) throw new Error();
 
-      if (!res.ok) {
-        throw new Error(data?.error || 'Error al contactar el asistente');
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: data.reply || '...' },
-      ]);
-
-      if (data.rateLimit) {
-        setRateLimit(data.rateLimit);
-      }
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
     } catch (err) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Ocurrió un problema al responder';
-
       setMessages((prev) => [
         ...prev,
-        {
-          role: 'assistant',
-          content:
-            'En este momento no puedo responder correctamente. Puedes intentarlo más tarde o contactar directamente al equipo.',
-        },
+        { role: 'assistant', content: 'Lo siento, tuve un problema técnico. Por favor, reintenta en un momento.' },
       ]);
-      console.error(msg);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-6 right-6 z-50 font-sans">
       {open ? (
-        <div className="w-[min(92vw,380px)] rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-            <div>
-              <p className="text-sm font-semibold text-gray-900">
-                Asistente ALIDIA
-              </p>
-              <p className="text-xs text-gray-500">
-                Respuestas informativas · no oficiales
-              </p>
+        <div className="flex flex-col w-[min(92vw,400px)] h-[550px] rounded-2xl bg-white shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+          
+          {/* HEADER MODERNO */}
+          <div className="bg-gradient-to-r from-amber-500 to-orange-600 p-4 text-white shadow-md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
+                  🤝
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm tracking-wide">Asistente ALIDIA</h3>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-[11px] text-amber-50">En línea ahora</span>
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={() => setOpen(false)}
+                className="hover:bg-black/10 p-1.5 rounded-full transition-colors"
+              >
+                ✕
+              </button>
             </div>
-            <button
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-2 py-1 text-sm text-gray-600 hover:bg-gray-100"
-            >
-              Cerrar
-            </button>
           </div>
 
-          {/* Mensajes */}
-          <div className="max-h-[50vh] overflow-y-auto p-4 space-y-3">
+          {/* CUERPO DEL CHAT */}
+          <div 
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4 scroll-smooth"
+          >
             {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
-                  m.role === 'user'
-                    ? 'ml-auto bg-amber-100 text-gray-900'
-                    : 'mr-auto bg-gray-100 text-gray-900'
-                }`}
+              <div 
+                key={i} 
+                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {m.content}
+                <div className={`
+                  max-w-[85%] px-4 py-2.5 rounded-2xl text-sm shadow-sm
+                  ${m.role === 'user' 
+                    ? 'bg-amber-500 text-white rounded-tr-none' 
+                    : 'bg-white text-gray-700 border border-gray-100 rounded-tl-none'}
+                `}>
+                  {m.content}
+                </div>
               </div>
             ))}
-
+            
             {loading && (
-              <div className="mr-auto rounded-2xl bg-gray-100 px-3 py-2 text-sm text-gray-500">
-                Escribiendo…
+              <div className="flex justify-start animate-pulse">
+                <div className="bg-gray-200 text-gray-500 px-4 py-2 rounded-2xl text-xs">
+                  Escribiendo...
+                </div>
               </div>
             )}
           </div>
 
-          {/* Rate limit (transparencia) */}
-          {rateLimit?.remainingTokens && (
-            <div className="border-t border-gray-100 px-4 py-1">
-              <p className="text-[11px] text-gray-400">
-                Capacidad disponible del asistente: {rateLimit.remainingTokens}{' '}
-                tokens
-              </p>
-            </div>
-          )}
-
-          {/* Input */}
-          <div className="border-t border-gray-200 p-3">
-            <div className="flex gap-2">
+          {/* INPUT MEJORADO */}
+          <div className="p-4 bg-white border-t border-gray-100">
+            <div className="relative flex items-center">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') sendMessage();
-                }}
-                placeholder="Escribe tu pregunta…"
-                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-amber-400"
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder="Escribe un mensaje..."
+                className="w-full pl-4 pr-12 py-3 bg-gray-100 border-none rounded-full text-sm focus:ring-2 focus:ring-amber-500 transition-all outline-none text-gray-700"
               />
               <button
                 onClick={sendMessage}
                 disabled={loading || !input.trim()}
-                className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                className="absolute right-1.5 p-2 bg-amber-500 text-white rounded-full hover:bg-amber-600 disabled:opacity-40 transition-all shadow-md"
               >
-                Enviar
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
+            <p className="text-center text-[10px] text-gray-400 mt-2">
+              Impulsado por IA para el bienestar social
+            </p>
           </div>
         </div>
       ) : (
-        // Botón flotante
+        /* BOTÓN FLOTANTE ESTILO ONG */
         <button
           onClick={() => setOpen(true)}
-          className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-amber-600"
+          className="group flex items-center gap-3 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3.5 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95"
         >
-          Chat
+          <span className="font-bold text-sm">¿Necesitas ayuda?</span>
+          <div className="bg-white/20 rounded-full p-1 group-hover:rotate-12 transition-transform">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </div>
         </button>
       )}
     </div>
