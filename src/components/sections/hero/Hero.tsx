@@ -29,7 +29,7 @@ export function Hero() {
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.6 }}
+      viewport={{ once: false, amount: 0.6 }}
     >
       <div className="mx-auto max-w-6xl">
         {/* Logo */}
