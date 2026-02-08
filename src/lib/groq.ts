@@ -15,6 +15,16 @@ export type GroqChatResult = {
   };
 };
 
+export type GroqTranscriptionResult = {
+  text: string;
+  rateLimit?: {
+    remainingTokens?: string | null;
+    remainingRequests?: string | null;
+    resetTokens?: string | null;
+    resetRequests?: string | null;
+  };
+};
+
 function pickHeader(headers: Headers, key: string) {
   return headers.get(key) ?? headers.get(key.toLowerCase()) ?? null;
 }
@@ -79,6 +89,56 @@ export async function groqChat(opts: {
     ok: true as const,
     status: 200,
     reply,
+    rateLimit,
+  };
+}
+
+export async function groqTranscribe(opts: {
+  apiKey: string;
+  model: string;
+  file: File;
+  language?: string;
+  prompt?: string;
+}) {
+  const { apiKey, model, file, language = 'es', prompt } = opts;
+
+  const formData = new FormData();
+  formData.append('model', model);
+  formData.append('file', file);
+  formData.append('language', language);
+  if (prompt) formData.append('prompt', prompt);
+
+  const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: formData,
+  });
+
+  const rateLimit = {
+    remainingTokens: pickHeader(res.headers, 'x-ratelimit-remaining-tokens'),
+    remainingRequests: pickHeader(res.headers, 'x-ratelimit-remaining-requests'),
+    resetTokens: pickHeader(res.headers, 'x-ratelimit-reset-tokens'),
+    resetRequests: pickHeader(res.headers, 'x-ratelimit-reset-requests'),
+  };
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    return {
+      ok: false as const,
+      status: res.status,
+      error: `Groq transcription error: ${res.status} ${text}`.trim(),
+      rateLimit,
+    };
+  }
+
+  const json = (await res.json()) as { text?: string };
+
+  return {
+    ok: true as const,
+    status: 200,
+    text: (json?.text ?? '').trim(),
     rateLimit,
   };
 }
