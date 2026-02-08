@@ -39,10 +39,20 @@ export function ChatWidget() {
 
   // FUNCIÓN CLAVE: Desbloquea el audio en navegadores móviles
   const resumeAudioContext = () => {
-    if (typeof window !== 'undefined' && (window as any).AudioContext) {
-      const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+    if (typeof window !== 'undefined') {
+      // 1. Desbloquear Web Audio API
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const audioCtx = new AudioContext();
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
+      }
+
+      // 2. TRUCO CLAVE para SpeechSynthesis (TTS) en iOS
+      // Reproducimos un fragmento de texto vacío inmediatamente al hacer clic
+      if (window.speechSynthesis) {
+        const utterance = new SpeechSynthesisUtterance("");
+        utterance.volume = 0; // Silencioso
+        window.speechSynthesis.speak(utterance);
       }
     }
   };
@@ -77,6 +87,7 @@ export function ChatWidget() {
           onInputChange={setInput}
           onSend={handleSend}
           onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
+          resumeAudio={resumeAudioContext} // <--- Añade esta línea
           onClose={() => setOpen(false)}
           isRecording={isRecording}
           micSupported={micSupported}

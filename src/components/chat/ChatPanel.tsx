@@ -16,6 +16,7 @@ type ChatPanelProps = {
   onInputChange: (v: string) => void;
   onSend: () => void;
   onToggleRecording: () => void;
+  resumeAudio: () => void; // <--- Añadir esto
   isRecording: boolean;
   micSupported: boolean;
   scrollRef: RefObject<HTMLDivElement | null>;
@@ -32,6 +33,7 @@ export function ChatPanel({
   onInputChange,
   onSend,
   onToggleRecording,
+  resumeAudio,
   isRecording,
   micSupported,
   scrollRef,
@@ -86,9 +88,13 @@ export function ChatPanel({
         <div className="flex items-center gap-1">
           {/* BOTÓN PARA DESBLOQUEAR AUDIO (Clic para que el móvil permita sonido) */}
           <button 
+            // Dentro del botón de la bocina en ChatPanel
             onClick={() => {
-               // Pequeño truco: al tocar esto despertamos el canal de audio
-               if (window.speechSynthesis) window.speechSynthesis.getVoices();
+              const utterance = new SpeechSynthesisUtterance("Audio activado");
+              utterance.rate = 10; // Súper rápido para que casi ni se oiga
+              utterance.volume = 0.1;
+              window.speechSynthesis.speak(utterance);
+              resumeAudio(); // Llama a la función de desbloqueo de audio
             }}
             className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
           >
