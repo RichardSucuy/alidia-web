@@ -9,7 +9,7 @@ import { ChatIcons } from './icons';
 import { useTTS } from './hooks/useTTS';
 
 export function ChatWidget() {
-  const { speak, stop } = useTTS();
+  const { speak, stop, isSpeaking} = useTTS();
   const [isMuted, setIsMuted] = useState(false); // <--- NUEVO ESTADO DE MEMORIA
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -77,6 +77,9 @@ export function ChatWidget() {
   }
 
   const handleToggleRecording = () => {
+    if (!isRecording) {
+      stop(); // <--- ESTO PAUSA AL BOT AL EMPEZAR A GRABAR
+    }
     resumeAudioContext(); // <--- Activar audio aquí
     toggleRecording();
   };
@@ -98,6 +101,7 @@ export function ChatWidget() {
           onInputChange={setInput}
           onSend={handleSend}
           onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
+          isSpeaking={isSpeaking} // <--- Pasamos el estado de habla al panel
           isMuted={isMuted} // <--- Pasamos el estado de silencio al panel
           onToggleMute={toggleMute} // <--- Pasamos la función para alternar silencio
           stopAudio={stop}
