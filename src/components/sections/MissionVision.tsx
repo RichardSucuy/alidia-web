@@ -47,7 +47,7 @@ export function MissionVision() {
 
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C3C5C]/10 text-[#0C3C5C]">
-                🎯
+                
               </div>
 
               <div>
@@ -76,7 +76,7 @@ export function MissionVision() {
 
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C3C5C]/10 text-[#0C3C5C]">
-                🔭
+                
               </div>
 
               <div>
