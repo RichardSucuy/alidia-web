@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 type NavItem = {
   href: string;
   label: string;
+  
 };
 
 const navItems: NavItem[] = [
