@@ -1,6 +1,6 @@
 export function MissionVision() {
   return (
-    <section className="bg-white">
+    <section id="mision-vision" className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 md:grid-cols-2">
           {/* Misión */}

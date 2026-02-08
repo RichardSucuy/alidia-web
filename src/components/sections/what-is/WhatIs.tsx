@@ -121,7 +121,9 @@ export function WhatIs() {
   ];
 
   return (
+    
     <motion.section
+      id="que-es-alidia"
       className="w-full bg-white px-6 py-24"
       variants={container}
       initial="hidden"

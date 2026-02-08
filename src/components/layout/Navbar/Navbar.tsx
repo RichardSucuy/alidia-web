@@ -1,18 +1,20 @@
 'use client';
 
+import { object } from 'framer-motion/client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type NavItem = {
   href: string;
   label: string;
-  
+
 };
 
 const navItems: NavItem[] = [
   { href: '#que-es-alidia', label: 'Que es ALIDIA?' },
   { href: '#quienes-somos', label: 'Quienes somos?' },
   { href: '#mision-vision', label: 'Mision y Vision' },
+  { href: '#objetivos', label: 'Objetivos' },
   { href: '#lineas-accion', label: 'Lineas de accion' },
   { href: '#proyectos', label: 'Proyectos' },
   { href: '#eventos', label: 'Eventos' },
@@ -46,7 +48,7 @@ export function Navbar() {
         }`}
       >
         <div className="mx-auto flex min-h-[74px] w-full max-w-[1200px] items-center justify-between gap-4 px-5">
-          <Link href="/" className="inline-flex items-center" aria-label="Inicio ALIDIA" onClick={closeMenu}>
+          <Link href="#inicio" className="inline-flex items-center" aria-label="Inicio ALIDIA" onClick={closeMenu}>
             <img src="/logo/alidia-horizontal.png" alt="ALIDIA" className="block h-10 w-auto" />
           </Link>
 

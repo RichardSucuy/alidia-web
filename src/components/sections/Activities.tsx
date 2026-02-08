@@ -1,6 +1,6 @@
 export function Activities() {
   return (
-    <section className="bg-white">
+    <section id="eventos" className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="max-w-4xl">
           {/* Título */}

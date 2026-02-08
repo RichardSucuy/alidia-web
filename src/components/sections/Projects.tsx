@@ -1,6 +1,6 @@
 export function Projects() {
   return (
-    <section className="bg-gray-50">
+    <section id="proyectos" className="bg-gray-50">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="max-w-4xl">
           {/* Título */}

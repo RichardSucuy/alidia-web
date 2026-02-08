@@ -47,7 +47,7 @@ const academicBoard: Member[] = [
 
 export function Team() {
   return (
-    <section className="bg-gray-50">
+    <section id="equipo" className="bg-gray-50">
       <div className="mx-auto max-w-6xl px-6 py-20">
         {/* Título */}
         <div className="max-w-4xl">

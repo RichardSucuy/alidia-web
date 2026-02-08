@@ -9,6 +9,8 @@ import { Activities } from '@/components/sections/Activities';
 import { Principles } from '@/components/sections/Principles';
 import { Team } from '@/components/sections/Team';
 import { Footer } from '@/components/layout/Footer';
+import { Objectives } from "@/components/sections/Objectives";
+
 
 export default function Home() {
   return (
@@ -18,6 +20,7 @@ export default function Home() {
       <WhatIs />
       <WhoWeAre />
       <MissionVision />
+      <Objectives />
       <ActionLines />
       <Projects />
       <Activities />
