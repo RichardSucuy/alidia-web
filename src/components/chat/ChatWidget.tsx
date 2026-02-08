@@ -34,38 +34,35 @@ export function ChatWidget() {
     },
   });
 
-  // Efecto para scroll automático
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [messages, loading, isTranscribing]);
 
-  // FUNCIÓN PARA DESPERTAR EL AUDIO (Crucial para móviles)
-  const unlockAudio = () => {
-    stop(); // Detenemos cualquier audio previo
-    // En algunos hooks de TTS, llamar a speak("") o stop() 
-    // bajo un evento de clic desbloquea el canal de audio del móvil.
+
+
+  // FUNCIÓN CLAVE: Desbloquea el audio en navegadores móviles
+  const resumeAudioContext = () => {
+    if (typeof window !== 'undefined' && (window as any).AudioContext) {
+      const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
   };
 
   function handleSend() {
     if (!input.trim()) return;
-    unlockAudio(); 
+    resumeAudioContext(); // <--- Activar audio aquí
+    stop();
     sendMessage(input);
     setInput('');
   }
 
   const handleToggleRecording = () => {
-    unlockAudio();
+    resumeAudioContext(); // <--- Activar audio aquí
     toggleRecording();
   };
 
   return (
     /* Contenedor ajustado para no ocupar espacio invisible en móvil */
-    <div className={`fixed z-[9999] font-sans transition-all duration-300 ${
+    <div className={`fixed bottom-4 right-4 z-[9999] sm:bottom-6 sm:right-6 font-sans"> ${
       open 
         ? 'inset-0 flex items-end justify-center p-4 sm:inset-auto sm:bottom-5 sm:right-5' 
         : 'bottom-5 right-5'
@@ -80,16 +77,16 @@ export function ChatWidget() {
           onInputChange={setInput}
           onSend={handleSend}
           onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
+          onClose={() => setOpen(false)}
           isRecording={isRecording}
           micSupported={micSupported}
           scrollRef={scrollRef}
           Icons={ChatIcons}
-          onClose={() => setOpen(false)}
         />
       ) : (
         <ChatLauncher
           onOpen={() => {
-            unlockAudio(); // Desbloqueamos audio al abrir el chat
+            resumeAudioContext(); // <--- Activar audio al abrir
             setOpen(true);
           }}
           Icons={ChatIcons}
