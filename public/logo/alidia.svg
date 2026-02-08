@@ -1,0 +1,20 @@
+<svg width="560" height="150" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ALIDIA logo institucional">
+  <g transform="translate(20,25)" fill="none" stroke="#0B3C5D" stroke-width="3">
+    <line x1="40" y1="90" x2="80" y2="15"></line>
+    <line x1="80" y1="15" x2="120" y2="90"></line>
+    <line x1="55" y1="60" x2="105" y2="60"></line>
+    <circle cx="40" cy="90" r="4" fill="#0B3C5D"></circle>
+    <circle cx="80" cy="15" r="4" fill="#0B3C5D"></circle>
+    <circle cx="120" cy="90" r="4" fill="#0B3C5D"></circle>
+    <circle cx="80" cy="60" r="4" fill="#0B3C5D"></circle>
+  </g>
+
+  <g transform="translate(170,65)" fill="#0B3C5D">
+    <text x="0" y="0" font-size="38" font-weight="700" font-family="Inter, Arial, sans-serif">
+      ALIDIA
+    </text>
+    <text x="0" y="30" font-size="14" font-family="Inter, Arial, sans-serif">
+      Alianza para el Liderazgo e Innovación en el Desarrollo de IA
+    </text>
+  </g>
+</svg>
