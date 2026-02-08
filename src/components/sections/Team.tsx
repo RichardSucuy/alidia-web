@@ -47,7 +47,7 @@ const academicBoard: Member[] = [
 
 export function Team() {
   return (
-    <section className="bg-gray-50">
+    <section id="equipo" className="bg-gray-50">
       <div className="mx-auto max-w-6xl px-6 py-20">
         {/* Título */}
         <div className="max-w-4xl">
@@ -84,7 +84,7 @@ export function Team() {
                   />
                 </div>
 
-                <p className="mt-6 text-sm font-medium text-amber-600 text-center">
+                <p className="mt-6 text-sm font-medium text-[#0C3C5C] text-center">
                   {member.role}
                 </p>
 
@@ -102,7 +102,7 @@ export function Team() {
                   href={member.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-amber-600"
+                  className="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#0C3C5C]"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +140,7 @@ export function Team() {
                   />
                 </div>
 
-                <p className="mt-6 text-sm font-medium text-amber-600 text-center">
+                <p className="mt-6 text-sm font-medium text-[#0C3C5C] text-center">
                   {member.role}
                 </p>
 
@@ -152,7 +152,7 @@ export function Team() {
                   href={member.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-amber-600"
+                  className="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-[#0C3C5C]"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

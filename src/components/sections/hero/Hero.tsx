@@ -25,7 +25,12 @@ const item: Variants = {
 export function Hero() {
   return (
     <motion.section
+<<<<<<< HEAD
       className="w-full bg-white px-6 py-12 md:py-20"
+=======
+      id="inicio"
+      className="w-full bg-white px-6 py-20"
+>>>>>>> 2b53ec002f27fd285dcb29ee100b055c0a35a7eb
       variants={container}
       initial="hidden"
       whileInView="show"

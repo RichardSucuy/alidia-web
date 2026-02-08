@@ -30,7 +30,7 @@ export function MissionVision() {
             Misión y Visión
           </h2>
           <p className="mt-3 max-w-2xl text-[#4B5563]">
-            Nuestro propósito y hacia dónde vamos como iniciativa.
+            Nuestro propósito y hacia dónde vamos como iniciativa territorial.
           </p>
         </motion.div>
 
@@ -39,7 +39,7 @@ export function MissionVision() {
           {/* Misión */}
           <motion.article
             variants={item}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -2 }}
             className="relative overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white p-8 shadow-sm transition hover:shadow-md"
           >
             {/* decoración suave */}
@@ -47,7 +47,7 @@ export function MissionVision() {
 
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C3C5C]/10 text-[#0C3C5C]">
-                
+                🎯
               </div>
 
               <div>
@@ -76,7 +76,7 @@ export function MissionVision() {
 
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C3C5C]/10 text-[#0C3C5C]">
-                
+                🔭
               </div>
 
               <div>
