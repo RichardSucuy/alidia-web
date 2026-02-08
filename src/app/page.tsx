@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Hero } from '@/components/sections/hero/Hero';
 import { WhatIs } from "@/components/sections/what-is/WhatIs";
 import { WhoWeAre } from "@/components/sections/whoweare/WhoWeAre";

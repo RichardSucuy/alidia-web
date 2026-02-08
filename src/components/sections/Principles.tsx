@@ -25,7 +25,7 @@ export function Principles() {
           {/* Lista de principios */}
           <ul className="mt-10 space-y-4">
             <li className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-amber-500" />
+              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[#0C3C5C]" />
               <p className="text-base leading-relaxed text-gray-700">
                 Fortalecimiento de capacidades locales como base del desarrollo
                 tecnológico sostenible.
@@ -33,7 +33,7 @@ export function Principles() {
             </li>
 
             <li className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-amber-500" />
+              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[#0C3C5C]" />
               <p className="text-base leading-relaxed text-gray-700">
                 Uso ético, responsable y contextualizado de la inteligencia
                 artificial y las tecnologías emergentes.
@@ -41,7 +41,7 @@ export function Principles() {
             </li>
 
             <li className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-amber-500" />
+              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[#0C3C5C]" />
               <p className="text-base leading-relaxed text-gray-700">
                 Colaboración intersectorial como motor de innovación y aprendizaje
                 colectivo.
@@ -49,7 +49,7 @@ export function Principles() {
             </li>
 
             <li className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-amber-500" />
+              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[#0C3C5C]" />
               <p className="text-base leading-relaxed text-gray-700">
                 Compromiso con el impacto social, educativo y productivo desde el
                 territorio.
