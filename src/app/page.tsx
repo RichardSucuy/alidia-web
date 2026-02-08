@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Hero } from '@/components/sections/Hero';
+import { Hero } from '@/components/sections/hero/Hero';
 import { WhatIs } from '@/components/sections/WhatIs';
 import {  WhoWeAre } from '@/components/sections/WhoWeAre';
 import { MissionVision } from '@/components/sections/MissionVision';
@@ -28,3 +28,12 @@ export default function Home() {
     </>
   );
 }
+
+// src/components/sections/Hero.tsx , WhatIs.tsx ,WhoWeAre.tsx , MissionVision.tsx , ActionLines.tsx , Projects.tsx ,Activities.tsx , Principles.tsx ,Team.tsx , Footer.tsx
+// src/components/layout/Footer.tsx
+// src/components/chat/ChatWidget.tsx
+// src/app/page.tsx
+// src/app/layout.tsx
+// src/contact/alidia.ts
+// src/lib/groq.ts
+// src/app/api/chat/route.ts
