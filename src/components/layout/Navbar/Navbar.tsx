@@ -18,7 +18,7 @@ const navItems: NavItem[] = [
   { href: '#equipo', label: 'Equipo' },
 ];
 
-export default function Navbar() {
+export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
