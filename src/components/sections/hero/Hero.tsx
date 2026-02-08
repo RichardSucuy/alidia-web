@@ -35,7 +35,7 @@ export function Hero() {
         {/* Logo */}
         <motion.div variants={item} className="flex items-center gap-3">
           <Image
-            src="/logo/alidia-vertical.png"
+            src="/logo/alidia-horizontal.png"
             alt="ALIDIA"
             width={280}
             height={260}
