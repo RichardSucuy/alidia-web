@@ -1,38 +1,66 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+
 export function Hero() {
   return (
-    <section className="relative bg-white">
-      <div className="mx-auto max-w-6xl px-6 pt-28 pb-24">
-        <div className="max-w-3xl">
-          {/* Nombre corto */}
-          <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-amber-600">
-            ALIDIA
-          </p>
+    <section className="w-full bg-white px-6 py-20">
+      <div className="mx-auto max-w-6xl">
 
-          {/* Nombre completo */}
-          <h1 className="text-3xl font-semibold leading-tight text-gray-900 sm:text-4xl">
-            Alianza para el Liderazgo e Innovación en el Desarrollo de
-            Inteligencia Artificial
-          </h1>
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3"
+        >
+          <Image
+            src="/logo/alidia-vertical.svg"
+            alt="ALIDIA"
+            width={160}
+            height={40}
+            className="h-10 w-auto"
+            priority
+          />
+        </motion.div>
 
-          {/* Frase síntesis */}
-          <p className="mt-6 text-xl font-medium text-gray-800">
-            Desarrollo responsable de inteligencia artificial desde el territorio
-          </p>
+        {/* Título */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mt-8 max-w-4xl text-4xl font-extrabold tracking-tight text-[#111827] md:text-6xl"
+        >
+          Alianza para el Liderazgo e Innovación en el Desarrollo de Inteligencia Artificial
+        </motion.h1>
 
-          {/* Descripción */}
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-gray-600">
-            Iniciativa ciudadana sin fines de lucro que impulsa la formación, la
-            innovación aplicada y el impacto social en tecnologías emergentes
-            desde Machala, Ecuador.
-          </p>
-        </div>
+        {/* Subtítulo */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mt-6 max-w-2xl text-base leading-relaxed text-[#4B5563] md:text-lg"
+        >
+          Desarrollo responsable de inteligencia artificial desde el territorio.
+        </motion.p>
+
+        {/* Botones */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-10 flex gap-3"
+        >
+          <a className="rounded-xl bg-[#0C3C5C] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0C3C5C]/90 transition">
+            Conócenos
+          </a>
+          <a className="rounded-xl border px-6 py-3 text-sm font-semibold text-[#1F2937] hover:bg-[#0C3C5C]/5 transition">
+            Contacto
+          </a>
+        </motion.div>
+
       </div>
-
-      {/* Detalle visual sutil */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent"
-      />
     </section>
   );
 }
