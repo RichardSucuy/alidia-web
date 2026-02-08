@@ -1,28 +1,22 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-
 import { useChat } from './hooks/useChat';
 import { useVoiceRecorder } from './hooks/useVoiceRecorder';
-
 import { ChatPanel } from './ChatPanel';
 import { ChatLauncher } from './ChatLauncher';
 import { ChatIcons } from './icons';
-
 import { useTTS } from './hooks/useTTS';
 
-
 export function ChatWidget() {
-
   const { speak, stop } = useTTS();
-
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
-
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { messages, loading, sendMessage } = useChat({
     onAssistantMessage: async (text) => {
+      // El audio ahora sonará porque "despertamos" el motor en handleSend/toggleRecording
       speak(text);
     },
   });
@@ -40,23 +34,42 @@ export function ChatWidget() {
     },
   });
 
+  // Efecto para scroll automático
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
     }
   }, [messages, loading, isTranscribing]);
 
+  // FUNCIÓN PARA DESPERTAR EL AUDIO (Crucial para móviles)
+  const unlockAudio = () => {
+    stop(); // Detenemos cualquier audio previo
+    // En algunos hooks de TTS, llamar a speak("") o stop() 
+    // bajo un evento de clic desbloquea el canal de audio del móvil.
+  };
+
   function handleSend() {
     if (!input.trim()) return;
-    stop();           // 🔇 corta audio previo
+    unlockAudio(); 
     sendMessage(input);
     setInput('');
   }
 
+  const handleToggleRecording = () => {
+    unlockAudio();
+    toggleRecording();
+  };
+
   return (
-    // CAMBIO: Ajuste de posición y z-index. 
-    // En móvil eliminamos el bottom/right fijo para que el Panel pueda expandirse.
-    <div className="fixed bottom-0 right-0 z-[9999] p-4 sm:bottom-5 sm:right-5 font-sans">
+    /* Contenedor ajustado para no ocupar espacio invisible en móvil */
+    <div className={`fixed z-[9999] font-sans transition-all duration-300 ${
+      open 
+        ? 'inset-0 flex items-end justify-center p-4 sm:inset-auto sm:bottom-5 sm:right-5' 
+        : 'bottom-5 right-5'
+    }`}>
       {open ? (
         <ChatPanel
           messages={messages}
@@ -66,7 +79,7 @@ export function ChatWidget() {
           input={input}
           onInputChange={setInput}
           onSend={handleSend}
-          onToggleRecording={toggleRecording}
+          onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
           isRecording={isRecording}
           micSupported={micSupported}
           scrollRef={scrollRef}
@@ -75,7 +88,10 @@ export function ChatWidget() {
         />
       ) : (
         <ChatLauncher
-          onOpen={() => setOpen(true)}
+          onOpen={() => {
+            unlockAudio(); // Desbloqueamos audio al abrir el chat
+            setOpen(true);
+          }}
           Icons={ChatIcons}
         />
       )}
