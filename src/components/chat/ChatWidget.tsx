@@ -87,6 +87,7 @@ export function ChatWidget() {
           onInputChange={setInput}
           onSend={handleSend}
           onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
+          stopAudio={stop}
           resumeAudio={resumeAudioContext} // <--- Añade esta línea
           onClose={() => setOpen(false)}
           isRecording={isRecording}
