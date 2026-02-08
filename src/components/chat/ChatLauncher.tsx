@@ -22,11 +22,6 @@ export function ChatLauncher({ onOpen, Icons }: ChatLauncherProps) {
         {Icons.bot}
       </div>
 
-      {/* Indicador de notificación (Punto verde) */}
-      <span className="absolute -right-0.5 top-1 flex h-3.5 w-3.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-[#0C3C5C] bg-emerald-500" />
-      </span>
 
       {/* Tooltip opcional que solo aparece en desktop al hacer hover */}
       <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-lg bg-slate-800 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 hidden sm:block">

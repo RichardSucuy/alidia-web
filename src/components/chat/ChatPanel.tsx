@@ -57,80 +57,110 @@ export function ChatPanel({
   };
 
   return (
-
     <div className={`
-      /* MÓVIL: Centrado, ancho fijo 90vw, alto 70vh */
-      fixed bottom-20 right-[5vw] left-[5vw] flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl border border-slate-200
-      h-[70vh] max-h-[550px]
+      /* POSICIÓN: IZQUIERDA Y ANGOSTO */
+      fixed bottom-20 right-4 z-50 flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl border border-slate-200
       
-      /* DESKTOP: Tamaño pequeño elegante */
-      sm:absolute sm:bottom-0 sm:right-0 sm:left-auto sm:h-[500px] sm:w-[350px]
+      /* MÓVIL: Ancho controlado (80% de la pantalla) y altura compacta */
+      w-[80vw] h-[420px] max-h-[55vh]
       
-      animate-in fade-in slide-in-from-bottom-2 duration-300
+      /* DESKTOP: Muy angosto y elegante a la izquierda */
+      sm:relative sm:bottom-0 sm:right-0 sm:h-[450px] sm:w-[300px]
+      
+      animate-in fade-in slide-in-from-right-4 duration-300
     `}>
-    
-      {/* HEADER SLIM (Igual al anterior pero con py-2.5) */}
-      <div className="flex items-center justify-between bg-[#0C3C5C] px-3 py-2.5 text-white shadow-md">
+      
+      {/* HEADER MINI */}
+      <div className="flex items-center justify-between bg-[#0C3C5C] px-3 py-2 text-white shadow-sm">
         <div className="flex items-center gap-2">
-          <div className="scale-90">{Icons.bot}</div>
-          <span className="text-[12px] font-bold tracking-tight">ALIDIA AI</span>
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="scale-75 brightness-110">{Icons.bot}</div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold leading-tight uppercase tracking-wider">ALIDIA AI</span>
+            <div className="flex items-center gap-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="text-[9px] text-white/60">Activa</span>
+            </div>
+          </div>
         </div>
-        <button onClick={onClose} className="p-1.5 hover:bg-white/10 rounded-full transition-colors">
-          <div className="scale-75">{Icons.close}</div>
-        </button>
-      </div>
 
+        <div className="flex items-center gap-1">
+          {/* BOTÓN PARA DESBLOQUEAR AUDIO (Clic para que el móvil permita sonido) */}
+          <button 
+            onClick={() => {
+               // Pequeño truco: al tocar esto despertamos el canal de audio
+               if (window.speechSynthesis) window.speechSynthesis.getVoices();
+            }}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+          
+          <button onClick={onClose} className="p-1.5 hover:bg-white/10 rounded-full transition-colors active:scale-90">
+            <div className="scale-75">{Icons.close}</div>
+          </button>
+        </div>
+      </div>
 
       {/* ÁREA DE MENSAJES */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#F8FAFC] px-3 py-4 space-y-3">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-[14px] shadow-sm leading-relaxed ${
-                m.role === 'user' ? 'bg-[#0C3C5C] text-white rounded-tr-none' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none'
-              }`}>
+            <div className={`
+              max-w-[85%] rounded-xl px-3 py-1.5 text-[12px] shadow-sm leading-snug
+              ${m.role === 'user' 
+                ? 'bg-[#0C3C5C] text-white rounded-tr-none' 
+                : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none'}
+            `}>
               {m.content}
             </div>
           </div>
         ))}
         {(loading || isTranscribing) && (
-          <div className="flex items-center gap-2 px-1 text-[11px] text-slate-400 font-medium">
+          <div className="flex items-center gap-1.5 px-1">
             <span className="flex gap-1">
               <span className="h-1 w-1 bg-slate-400 rounded-full animate-bounce" />
               <span className="h-1 w-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
             </span>
-            {isTranscribing ? 'Procesando voz...' : 'Escribiendo...'}
+            <span className="text-[10px] text-slate-400 italic">Escribiendo...</span>
           </div>
         )}
       </div>
 
-      {/* FOOTER COMPACTO */}
-      {/* FOOTER CRONÓMETRO */}
-      <div className="bg-white p-3 border-t">
-        <div className={`flex items-center gap-2 rounded-xl border border-slate-200 p-1.5 transition-all ${isRecording ? 'bg-red-50' : 'bg-slate-50'}`}>
+      {/* FOOTER NANO */}
+      <div className="bg-white p-2 border-t">
+        <div className={`flex items-center gap-1 rounded-lg border border-slate-200 p-1 transition-all ${isRecording ? 'bg-red-50' : 'bg-slate-50'}`}>
           {isRecording ? (
             <div className="flex flex-1 items-center gap-2 px-2 text-red-600">
-              <span className="h-2 w-2 rounded-full bg-red-600 animate-ping" />
-              <span className="text-sm font-bold tabular-nums">{formatTime(seconds)}</span>
-              <span className="text-[10px] uppercase font-bold tracking-widest">Grabando...</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
+              <span className="text-[12px] font-bold tabular-nums">{formatTime(seconds)}</span>
             </div>
           ) : (
             <input
               value={input}
               onChange={(e) => onInputChange(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && onSend()}
-              placeholder="Escribe aquí..."
-              className="flex-1 bg-transparent px-2 py-1 text-sm outline-none"
+              placeholder="Mensaje..."
+              className="flex-1 bg-transparent px-2 py-1 text-[12px] outline-none"
             />
           )}
 
-          <div className="flex items-center gap-1">
-            <button onClick={onToggleRecording} className={`flex h-9 w-9 items-center justify-center rounded-lg ${isRecording ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-100'}`}>
-              {Icons.mic}
+          <div className="flex items-center">
+            <button 
+              onClick={onToggleRecording} 
+              className={`flex h-7 w-7 items-center justify-center rounded-md transition-all ${isRecording ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-100'}`}
+            >
+              <div className="scale-75">{Icons.mic}</div>
             </button>
             {!isRecording && (
-              <button onClick={onSend} disabled={!input.trim()} className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0C3C5C] text-white disabled:opacity-30">
-                {Icons.send}
+              <button 
+                onClick={onSend} 
+                disabled={!input.trim()} 
+                className="flex h-7 w-7 items-center justify-center rounded-md bg-[#0C3C5C] text-white disabled:opacity-20 ml-0.5"
+              >
+                <div className="scale-60 transform">{Icons.send}</div>
               </button>
             )}
           </div>
