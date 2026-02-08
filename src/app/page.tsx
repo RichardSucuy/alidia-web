@@ -31,5 +31,9 @@ export default function Home() {
 
 // src/components/sections/Hero.tsx , WhatIs.tsx ,WhoWeAre.tsx , MissionVision.tsx , ActionLines.tsx , Projects.tsx ,Activities.tsx , Principles.tsx ,Team.tsx , Footer.tsx
 // src/components/layout/Footer.tsx
-// src/app/api/chat/route.ts
+// src/components/chat/ChatWidget.tsx
 // src/app/page.tsx
+// src/app/layout.tsx
+// src/contact/alidia.ts
+// src/lib/groq.ts
+// src/app/api/chat/route.ts
