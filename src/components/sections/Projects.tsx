@@ -19,7 +19,7 @@ export function Projects() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {/* SIAM */}
           <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <div className="mb-4 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
+            <div className="mb-4 inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-[#0C3C5C]">
               En desarrollo
             </div>
 
