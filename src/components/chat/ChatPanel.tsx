@@ -18,6 +18,8 @@ type ChatPanelProps = {
   onToggleRecording: () => void;
   resumeAudio: () => void;
   stopAudio: () => void; // <--- Añadimos esta prop para callar al bot
+  isMuted: boolean;        // <--- Nueva Prop
+  onToggleMute: () => void; // <--- Nueva Prop
   isRecording: boolean;
   micSupported: boolean;
   scrollRef: RefObject<HTMLDivElement | null>;
@@ -35,6 +37,8 @@ export function ChatPanel({
   onSend,
   onToggleRecording,
   resumeAudio,
+  isMuted,
+  onToggleMute,
   stopAudio,
   isRecording,
   micSupported,
@@ -82,29 +86,37 @@ export function ChatPanel({
           </div>
         </div>
 
-        <div className="flex items-center gap-1">
-          {/* BOTÓN MULTIFUNCIÓN: ACTIVAR / CALLAR AUDIO */}
+
+        <div className="flex items-center gap-0.5">
+          {/* INTERRUPTOR DE VOZ ON/OFF */}
           <button 
             onClick={() => {
-              stopAudio(); // Silencia cualquier audio actual
-              const utterance = new SpeechSynthesisUtterance(""); 
-              window.speechSynthesis.speak(utterance); // Truco para mantener el canal abierto
-              resumeAudio();
+              onToggleMute();
+              if (isMuted) resumeAudio(); // Si estaba mudo y lo activamos, despertamos el audio
             }}
-            className="p-1.5 text-white/70 hover:text-white hover:bg-red-500/20 rounded-md transition-colors"
-            title="Callar/Activar Audio"
+            className={`p-1.5 rounded-md transition-all ${isMuted ? 'text-red-400 bg-red-500/10' : 'text-emerald-400 hover:bg-white/10'}`}
+            title={isMuted ? "Voz desactivada" : "Voz activa"}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
+            {isMuted ? (
+              /* Icono Mudo */
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
+              </svg>
+            ) : (
+              /* Icono Parlante Activo */
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+              </svg>
+            )}
           </button>
           
           <button onClick={onClose} className="p-1.5 hover:bg-white/10 rounded-full transition-colors">
             <div className="scale-75">{Icons.close}</div>
           </button>
         </div>
+
+
+
       </div>
 
       {/* ÁREA DE MENSAJES (Más compacta) */}
@@ -150,18 +162,11 @@ export function ChatPanel({
           )}
 
           <div className="flex items-center">
-            <button 
-              onClick={onToggleRecording} 
-              className={`flex h-7 w-7 items-center justify-center rounded-md transition-all ${isRecording ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-200'}`}
-            >
+            <button onClick={onToggleRecording} className={`flex h-7 w-7 items-center justify-center rounded-md transition-all ${isRecording ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-200'}`}>
               <div className="scale-75">{Icons.mic}</div>
             </button>
             {!isRecording && (
-              <button 
-                onClick={onSend} 
-                disabled={!input.trim()} 
-                className="flex h-7 w-7 items-center justify-center rounded-md bg-[#0C3C5C] text-white disabled:opacity-20 ml-0.5"
-              >
+              <button onClick={onSend} disabled={!input.trim()} className="flex h-7 w-7 items-center justify-center rounded-md bg-[#0C3C5C] text-white disabled:opacity-20 ml-0.5">
                 <div className="scale-50">{Icons.send}</div>
               </button>
             )}

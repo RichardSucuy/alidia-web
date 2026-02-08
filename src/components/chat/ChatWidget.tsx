@@ -10,6 +10,7 @@ import { useTTS } from './hooks/useTTS';
 
 export function ChatWidget() {
   const { speak, stop } = useTTS();
+  const [isMuted, setIsMuted] = useState(false); // <--- NUEVO ESTADO DE MEMORIA
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -17,9 +18,19 @@ export function ChatWidget() {
   const { messages, loading, sendMessage } = useChat({
     onAssistantMessage: async (text) => {
       // El audio ahora sonará porque "despertamos" el motor en handleSend/toggleRecording
-      speak(text);
+      // SOLO HABLA SI NO ESTÁ SILENCIADO
+      if (!isMuted) {
+        speak(text);
+      }
     },
   });
+
+  const toggleMute = () => {
+    if (!isMuted) {
+      stop(); // Si lo silenciamos ahora, que se calle de inmediato
+    }
+    setIsMuted(!isMuted);
+  };
 
   const {
     micSupported,
@@ -87,6 +98,8 @@ export function ChatWidget() {
           onInputChange={setInput}
           onSend={handleSend}
           onToggleRecording={handleToggleRecording} // Usamos la versión con unlock
+          isMuted={isMuted} // <--- Pasamos el estado de silencio al panel
+          onToggleMute={toggleMute} // <--- Pasamos la función para alternar silencio
           stopAudio={stop}
           resumeAudio={resumeAudioContext} // <--- Añade esta línea
           onClose={() => setOpen(false)}
