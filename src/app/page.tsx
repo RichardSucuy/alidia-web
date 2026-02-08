@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Hero } from '@/components/sections/hero/Hero';
-import { WhatIs } from '@/components/sections/WhatIs';
+import { WhatIs } from '@/components/sections/what-is/WhatIs';
 import {  WhoWeAre } from '@/components/sections/WhoWeAre';
 import { MissionVision } from '@/components/sections/MissionVision';
 import { ActionLines } from '@/components/sections/ActionLines';
