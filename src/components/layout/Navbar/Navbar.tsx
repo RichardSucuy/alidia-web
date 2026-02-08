@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styles from './Navbar.module.css';
 
@@ -20,50 +20,72 @@ const navItems: NavItem[] = [
   { href: '#equipo', label: 'Equipo' },
 ];
 
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Activar el efecto blur después de 20px de scroll
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    // Verificar posición inicial
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
-    <header className={styles.navbar}>
-      <div className={styles.inner}>
-        <Link href="/" className={styles.brand} aria-label="Inicio ALIDIA" onClick={closeMenu}>
-          <img src="/logo/alidia-horizontal.png" alt="ALIDIA" className={styles.logo} />
-        </Link>
+    <>
+      <header
+        className={`${styles.navbar} ${isScrolled ? styles.navbarScrolled : ''}`}
+      >
+        <div className={styles.inner}>
+          <Link href="/" className={styles.brand} aria-label="Inicio ALIDIA" onClick={closeMenu}>
+            <img src="/logo/alidia-horizontal.png" alt="ALIDIA" className={styles.logo} />
+          </Link>
 
-        <nav className={styles.desktopNav} aria-label="Navegación principal">
-          {navItems.map((item) => (
-            <a key={item.href} href={item.href} className={styles.link}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          <nav className={styles.desktopNav} aria-label="Navegación principal">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className={styles.link}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        <button
-          type="button"
-          className={`${styles.menuButton} ${isMenuOpen ? styles.menuButtonOpen : ''}`}
-          aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-nav"
-          onClick={toggleMenu}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </div>
+          <button
+            type="button"
+            className={`${styles.menuButton} ${isMenuOpen ? styles.menuButtonOpen : ''}`}
+            aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav"
+            onClick={toggleMenu}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
 
-      <div id="mobile-nav" className={`${styles.mobilePanel} ${isMenuOpen ? styles.mobilePanelOpen : ''}`}>
-        <nav className={styles.mobileNav} aria-label="Navegación móvil">
-          {navItems.map((item) => (
-            <a key={`mobile-${item.href}`} href={item.href} className={styles.mobileLink} onClick={closeMenu}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-    </header>
+        <div id="mobile-nav" className={`${styles.mobilePanel} ${isMenuOpen ? styles.mobilePanelOpen : ''}`}>
+          <nav className={styles.mobileNav} aria-label="Navegación móvil">
+            {navItems.map((item) => (
+              <a key={`mobile-${item.href}`} href={item.href} className={styles.mobileLink} onClick={closeMenu}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </header>
+      
+      {/* Spacer para compensar el navbar fixed */}
+      <div className={styles.spacer} />
+    </>
   );
 }

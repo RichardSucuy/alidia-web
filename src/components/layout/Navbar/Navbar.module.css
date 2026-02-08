@@ -1,10 +1,21 @@
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 60;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
   box-shadow: 0 4px 20px rgba(12, 60, 92, 0.06);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado scrolled: fondo semi-transparente con efecto blur/glassmorphism */
+.navbarScrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(12, 60, 92, 0.1);
 }
 
 .inner {
@@ -60,6 +71,12 @@
   justify-content: center;
   gap: 4px;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Cuando está scrolleado, el botón también tiene efecto blur */
+.navbarScrolled .menuButton {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .menuButton span {
@@ -118,6 +135,11 @@
 
 .mobileLink:last-child {
   border-bottom: 0;
+}
+
+/* Spacer para compensar el navbar fixed */
+.spacer {
+  height: 74px;
 }
 
 @media (min-width: 980px) {
