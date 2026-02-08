@@ -23,3 +23,165 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 20px rgba(12, 60, 92, 0.06);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado scrolled: fondo semi-transparente con efecto blur/glassmorphism */
+.navbarScrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(12, 60, 92, 0.1);
+}
+
+.inner {
+  max-width: 1200px;
+  min-height: 74px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 40px;
+}
+
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.link {
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #0c3c5c;
+}
+
+.menuButton {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Cuando está scrolleado, el botón también tiene efecto blur */
+.navbarScrolled .menuButton {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.menuButton span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #0c3c5c;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menuButtonOpen span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menuButtonOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuButtonOpen span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobilePanel {
+  max-height: 0;
+  overflow: hidden;
+  border-top: 0 solid transparent;
+  transition: max-height 0.25s ease, border-top-width 0.25s ease;
+}
+
+.mobilePanelOpen {
+  max-height: 420px;
+  border-top-width: 1px;
+  border-top-color: #e5e7eb;
+}
+
+.mobileNav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileLink {
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.mobileLink:hover {
+  color: #0c3c5c;
+}
+
+.mobileLink:last-child {
+  border-bottom: 0;
+}
+
+/* Spacer para compensar el navbar fixed */
+.spacer {
+  height: 74px;
+}
+
+@media (min-width: 980px) {
+  .desktopNav {
+    display: inline-flex;
+  }
+
+  .menuButton {
+    display: none;
+  }
+
+  .mobilePanel {
+    display: none;
+  }
+}
