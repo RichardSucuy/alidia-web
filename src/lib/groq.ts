@@ -1,3 +1,64 @@
+type GroqSpeechResult =
+  | {
+      ok: true;
+      buffer: ArrayBuffer;
+    }
+  | {
+      ok: false;
+      status: number;
+      error: string;
+    };
+
+export async function groqSpeech(params: {
+  apiKey: string;
+  model: string;
+  voice: string;
+  input: string;
+  response_format?: 'wav' | 'mp3' | 'ogg' | 'flac';
+}) {
+  try {
+    const res = await fetch(
+      'https://api.groq.com/openai/v1/audio/speech',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${params.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: params.model,
+          voice: params.voice,
+          input: params.input,
+          response_format: params.response_format ?? 'wav',
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const text = await res.text();
+      return {
+        ok: false,
+        status: res.status,
+        error: text || 'Groq TTS error',
+      } as const;
+    }
+
+    const buffer = await res.arrayBuffer();
+
+    return {
+      ok: true,
+      buffer,
+    } as const;
+  } catch (err) {
+    return {
+      ok: false,
+      status: 500,
+      error: err instanceof Error ? err.message : 'Unknown error',
+    } as const;
+  }
+}
+
+
 type Role = 'system' | 'user' | 'assistant';
 
 export type GroqMessage = {
