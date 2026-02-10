@@ -31,8 +31,8 @@ export function WhoWeAre() {
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#0C3C5C]/[0.05] to-transparent" />
-      <div className="pointer-events-none absolute -left-20 top-24 h-56 w-56 rounded-full bg-[#0C3C5C]/[0.08] blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-linear-to-b from-[#0C3C5C]/5 to-transparent" />
+      <div className="pointer-events-none absolute -left-20 top-24 h-56 w-56 rounded-full bg-[#0C3C5C]/8 blur-3xl" />
       <div className="pointer-events-none absolute -right-16 bottom-10 h-52 w-52 rounded-full bg-[#0C3C5C]/[0.07] blur-3xl" />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-start gap-10 lg:grid-cols-[1.2fr_0.8fr]">
@@ -89,7 +89,7 @@ export function WhoWeAre() {
 
         <motion.aside
           variants={item}
-          className="relative overflow-hidden rounded-2xl border border-[#E5E7EB] bg-gradient-to-b from-white to-[#F8FAFC] p-6 shadow-[0_10px_35px_rgba(12,60,92,0.08)] sm:p-7"
+          className="relative overflow-hidden rounded-2xl border border-[#E5E7EB] bg-linear-to-b from-white to-[#F8FAFC] p-6 shadow-[0_10px_35px_rgba(12,60,92,0.08)] sm:p-7"
         >
           <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full bg-[#0C3C5C]/10 blur-2xl" />
           <div className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-[#0C3C5C]/10 blur-2xl" />
@@ -111,7 +111,7 @@ export function WhoWeAre() {
           </ul>
 
           <div className="relative mt-6 rounded-xl border border-[#DDE4EA] bg-white/85 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#0C3C5C]">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#0C3C5C]">
               Enfoque
             </p>
             <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">

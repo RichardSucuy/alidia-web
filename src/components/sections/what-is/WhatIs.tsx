@@ -149,7 +149,7 @@ export function WhatIs() {
         <div className="mt-16 grid gap-12 lg:grid-cols-2">
           {/* Columna izquierda */}
           <motion.div variants={item} className="space-y-8">
-            <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-white p-8">
+            <div className="rounded-2xl bg-linear-to-br from-blue-50 to-white p-8">
               <p className="text-base leading-relaxed text-[#1F2937] md:text-lg">
                 Surge como un <span className="font-semibold text-[#0C3C5C]">espacio de articulación único</span> que conecta 
                 formación especializada, innovación aplicada y compromiso social, con un enfoque territorial 
@@ -191,7 +191,7 @@ export function WhatIs() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className={`mt-8 rounded-xl border ${approaches[activeTab].borderColor} bg-gradient-to-br ${approaches[activeTab].color} p-6`}
+                className={`mt-8 rounded-xl border ${approaches[activeTab].borderColor} bg-linear-to-br ${approaches[activeTab].color} p-6`}
               >
                 <div className="flex items-start gap-4">
                   <div className="rounded-lg bg-white p-3 shadow-sm">
@@ -238,20 +238,20 @@ export function WhatIs() {
                   }}
                   className={`group relative cursor-pointer overflow-hidden rounded-2xl border ${
                     card.highlight 
-                      ? 'border-[#0C3C5C]/30 bg-gradient-to-br from-[#0C3C5C]/5 to-blue-50' 
+                      ? 'border-[#0C3C5C]/30 bg-linear-to-br from-[#0C3C5C]/5 to-blue-50' 
                       : 'border-[#E5E7EB] bg-white'
                   } p-6 transition-all duration-300 hover:border-[#0C3C5C]/30 hover:shadow-xl`}
                 >
                   {/* Efecto de fondo para tarjetas destacadas */}
                   {card.highlight && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-white to-cyan-50/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                    <div className="absolute inset-0 bg-linear-to-br from-blue-50/0 via-white to-cyan-50/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                   )}
                   
                   <div className="relative flex items-start gap-4">
                     <div className={`rounded-xl p-3 transition-all duration-300 group-hover:scale-110 ${
                       card.highlight
-                        ? 'bg-gradient-to-br from-[#0C3C5C]/20 to-blue-500/20'
-                        : 'bg-gradient-to-br from-[#0C3C5C]/10 to-blue-500/10'
+                        ? 'bg-linear-to-br from-[#0C3C5C]/20 to-blue-500/20'
+                        : 'bg-linear-to-br from-[#0C3C5C]/10 to-blue-500/10'
                     }`}>
                       {card.icon}
                     </div>
@@ -268,7 +268,7 @@ export function WhatIs() {
                   </div>
                   
                   {/* Indicador de hover */}
-                  <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#0C3C5C] to-blue-500 transition-all duration-300 group-hover:w-full"></div>
+                  <div className="absolute bottom-0 left-0 h-1 w-0 bg-linear-to-r from-[#0C3C5C] to-blue-500 transition-all duration-300 group-hover:w-full"></div>
                 </motion.div>
               ))}
             </div>
@@ -277,7 +277,7 @@ export function WhatIs() {
 
         {/* Estadísticas */}
           <motion.div variants={item} className="mt-15">
-          <div className="rounded-2xl bg-gradient-to-br from-gray-50 to-white p-8 md:p-12 shadow-sm">
+          <div className="rounded-2xl bg-linear-to-br from-gray-50 to-white p-8 md:p-12 shadow-sm">
             <h3 className="text-center text-2xl font-semibold text-[#111827]">
               ALIDIA en acción
             </h3>

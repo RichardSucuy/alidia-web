@@ -1,14 +1,14 @@
 import { Hero } from '@/components/sections/hero/Hero';
 import { WhatIs } from "@/components/sections/what-is/WhatIs";
 import { WhoWeAre } from "@/components/sections/whoweare/WhoWeAre";
-import { MissionVision } from '@/components/sections/MissionVision';
-import { ActionLines } from '@/components/sections/ActionLines';
+import { MissionVision } from '@/components/sections/misionvision/MissionVision';
+import { ActionLines } from '@/components/sections/action-line/ActionLines';
 import { Projects } from '@/components/sections/Projects';
 import { Activities } from '@/components/sections/Activities';
 import { Principles } from '@/components/sections/Principles';
 import { Team } from '@/components/sections/Team';
 import { Footer } from '@/components/layout/Footer';
-import { Objectives } from "@/components/sections/Objectives";
+import { Objectives } from "@/components/sections/objectives/Objectives";
 
 
 export default function Home() {
