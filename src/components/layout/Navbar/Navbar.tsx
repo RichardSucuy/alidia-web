@@ -17,7 +17,6 @@ const navItems: NavItem[] = [
   { href: '#objetivos', label: 'Objetivos' },
   { href: '#lineas-accion', label: 'Lineas de accion' },
   { href: '#proyectos', label: 'Proyectos' },
-  { href: '#eventos', label: 'Eventos' },
   { href: '#equipo', label: 'Equipo' },
 ];
 

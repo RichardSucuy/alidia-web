@@ -72,7 +72,6 @@ export function WhoWeAre() {
               <h2 className="text-4xl font-extrabold leading-tight text-[#111827] md:text-5xl">
                 ¿Quiénes somos?
               </h2>
-              <div className="mt-4 h-1.5 w-20 rounded-full bg-linear-to-r from-[#0C3C5C] to-blue-400" />
             </div>
 
             <div className="space-y-5 text-lg leading-relaxed text-[#4B5563]">

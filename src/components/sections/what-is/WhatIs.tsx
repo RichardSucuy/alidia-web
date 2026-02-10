@@ -275,7 +275,7 @@ export function WhatIs() {
           </motion.div>
         </div>
 
-        {/* Estadísticas */}
+        {/* Estadísticas
           <motion.div variants={item} className="mt-15">
           <div className="rounded-2xl bg-linear-to-br from-gray-50 to-white p-8 md:p-12 shadow-sm">
             <h3 className="text-center text-2xl font-semibold text-[#111827]">
@@ -286,7 +286,7 @@ export function WhatIs() {
                 { 
                   label: "Proyectos activos", 
                   value: "2+",
-                  subtext: "SIAM, CEIA" 
+                  subtext: "SIAM, AID-CV, CEIA" 
                 },
                 { 
                   label: "Comunidad activa", 
@@ -314,16 +314,16 @@ export function WhatIs() {
                   <div className="mt-1 text-xs text-[#6B7280]">{stat.subtext}</div>
                 </motion.div>
               ))}
-            </div>
+            </div> */}
             
             {/* Línea divisoria con texto */}
-            <div className="mt-10 pt-8 border-t border-gray-200">
+            {/* <div className="mt-10 pt-8 border-t border-gray-200">
               <p className="text-center text-gray-600 italic">
               
               </p>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </motion.section>
   );

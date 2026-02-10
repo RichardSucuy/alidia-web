@@ -4,9 +4,8 @@ import { WhoWeAre } from "@/components/sections/whoweare/WhoWeAre";
 import { MissionVision } from '@/components/sections/misionvision/MissionVision';
 import { ActionLines } from '@/components/sections/action-line/ActionLines';
 import { Projects } from '@/components/sections/projects/Projects';
-import { Activities } from '@/components/sections/Activities';
-import { Principles } from '@/components/sections/Principles';
-import { Team } from '@/components/sections/Team';
+
+import { Team } from '@/components/sections/team/Team';
 import { Footer } from '@/components/layout/Footer';
 import { Objectives } from "@/components/sections/objectives/Objectives";
 
@@ -22,8 +21,6 @@ export default function Home() {
       <Objectives />
       <ActionLines />
       <Projects />
-      {/* <Activities /> */}
-      {/* <Principles /> */}
       <Team />
       <Footer />
 

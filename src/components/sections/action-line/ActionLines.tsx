@@ -40,7 +40,7 @@ export function ActionLines() {
 
   return (
     <motion.section
-      id="lineas-de-accion"
+      id="lineas-accion"
       className="relative w-full overflow-hidden bg-white px-6 py-20 sm:py-24"
       variants={container}
       initial="hidden"
