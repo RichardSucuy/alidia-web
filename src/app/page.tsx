@@ -3,7 +3,7 @@ import { WhatIs } from "@/components/sections/what-is/WhatIs";
 import { WhoWeAre } from "@/components/sections/whoweare/WhoWeAre";
 import { MissionVision } from '@/components/sections/misionvision/MissionVision';
 import { ActionLines } from '@/components/sections/action-line/ActionLines';
-import { Projects } from '@/components/sections/Projects';
+import { Projects } from '@/components/sections/projects/Projects';
 import { Activities } from '@/components/sections/Activities';
 import { Principles } from '@/components/sections/Principles';
 import { Team } from '@/components/sections/Team';
@@ -22,8 +22,8 @@ export default function Home() {
       <Objectives />
       <ActionLines />
       <Projects />
-      <Activities />
-      <Principles />
+      {/* <Activities /> */}
+      {/* <Principles /> */}
       <Team />
       <Footer />
 

@@ -1,12 +1,20 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { 
+  Users, 
+  MapPin, 
+  BookOpen, 
+  Cpu, 
+  ShieldCheck, 
+  Handshake 
+} from "lucide-react";
 
 const container: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.1,
       delayChildren: 0.05,
     },
   },
@@ -22,104 +30,129 @@ const item: Variants = {
 };
 
 export function WhoWeAre() {
+  const pillars = [
+    {
+      title: "Academia",
+      desc: "Investigación aplicada y rigor científico.",
+      icon: <BookOpen className="w-5 h-5" />,
+      color: "from-blue-50 to-indigo-50"
+    },
+    {
+      title: "Tecnología",
+      desc: "Soluciones de IA contextualizadas.",
+      icon: <Cpu className="w-5 h-5" />,
+      color: "from-cyan-50 to-blue-50"
+    },
+    {
+      title: "Territorio",
+      desc: "Compromiso local en Machala y El Oro.",
+      icon: <MapPin className="w-5 h-5" />,
+      color: "from-slate-50 to-blue-50"
+    }
+  ];
+
   return (
     <motion.section
       id="quienes-somos"
-      className="relative w-full overflow-hidden bg-white px-6 py-20 sm:py-24"
+      className="relative w-full overflow-hidden bg-white px-6 py-24"
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, amount: 0.25 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-linear-to-b from-[#0C3C5C]/5 to-transparent" />
-      <div className="pointer-events-none absolute -left-20 top-24 h-56 w-56 rounded-full bg-[#0C3C5C]/8 blur-3xl" />
-      <div className="pointer-events-none absolute -right-16 bottom-10 h-52 w-52 rounded-full bg-[#0C3C5C]/[0.07] blur-3xl" />
-
-      <div className="relative mx-auto grid w-full max-w-6xl items-start gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-        <motion.div variants={item}>
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#0C3C5C]/20 bg-white px-3 py-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#0C3C5C]" />
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#0C3C5C]/80">
-              Identidad Institucional
-            </p>
-          </div>
-
-          <h2 className="mt-3 text-3xl font-bold leading-tight text-[#111827] sm:text-4xl">
-            Quienes somos?
-          </h2>
-
-          <div className="mt-6 space-y-4 text-base leading-relaxed text-[#4B5563]">
-            <p>
-              ALIDIA esta conformada por un colectivo de profesionales, investigadores y actores
-              vinculados al ambito academico, tecnologico y social, con raices y compromiso en el
-              territorio.
-            </p>
-            <p>
-              Surge en Machala, Ecuador, como respuesta a la necesidad de acercar la inteligencia
-              artificial a realidades locales que requieren soluciones contextualizadas,
-              responsables y sostenibles.
-            </p>
-            <p>
-              Actuamos como un espacio articulador entre conocimiento tecnico y participacion
-              comunitaria para impulsar desarrollo local con enfoque humano.
-            </p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-[#E5E7EB] bg-white px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#0C3C5C]">
-                Academia
-              </p>
-              <p className="mt-1 text-sm text-[#4B5563]">Investigacion aplicada</p>
+      {/* Fondos decorativos coherentes con WhatIs */}
+      <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-50/50 blur-3xl" />
+      
+      <div className="relative mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          
+          {/* Columna Izquierda: Narrativa */}
+          <motion.div variants={item} className="space-y-8">
+            <div>
+              <h2 className="text-4xl font-extrabold leading-tight text-[#111827] md:text-5xl">
+                ¿Quiénes somos?
+              </h2>
+              <div className="mt-4 h-1.5 w-20 rounded-full bg-linear-to-r from-[#0C3C5C] to-blue-400" />
             </div>
-            <div className="rounded-xl border border-[#E5E7EB] bg-white px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#0C3C5C]">
-                Tecnologia
+
+            <div className="space-y-5 text-lg leading-relaxed text-[#4B5563]">
+              <p>
+                ALIDIA está conformada por un <span className="font-semibold text-[#0C3C5C]">colectivo multidisciplinario</span> de profesionales e investigadores vinculados al ámbito académico y social.
               </p>
-              <p className="mt-1 text-sm text-[#4B5563]">Soluciones contextualizadas</p>
-            </div>
-            <div className="rounded-xl border border-[#E5E7EB] bg-white px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#0C3C5C]">
-                Territorio
+              <p>
+                Nacemos en <span className="font-medium text-gray-900 text-bold">Machala, Ecuador</span>, como respuesta a la brecha tecnológica, buscando aterrizar la inteligencia artificial a las necesidades reales de nuestra provincia.
               </p>
-              <p className="mt-1 text-sm text-[#4B5563]">Compromiso local sostenible</p>
+              <p className="rounded-xl border-l-4 border-[#0C3C5C] bg-gray-50 p-4 italic">
+                "Actuamos como un puente entre el conocimiento técnico avanzado y la participación comunitaria."
+              </p>
             </div>
-          </div>
-        </motion.div>
 
-        <motion.aside
-          variants={item}
-          className="relative overflow-hidden rounded-2xl border border-[#E5E7EB] bg-linear-to-b from-white to-[#F8FAFC] p-6 shadow-[0_10px_35px_rgba(12,60,92,0.08)] sm:p-7"
-        >
-          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full bg-[#0C3C5C]/10 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-[#0C3C5C]/10 blur-2xl" />
+            {/* Pilares Grid */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {pillars.map((p, i) => (
+                <div key={i} className={`rounded-2xl bg-linear-to-br ${p.color} border border-blue-100/50 p-5 transition-transform hover:-translate-y-1`}>
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-white text-[#0C3C5C] shadow-sm">
+                    {p.icon}
+                  </div>
+                  <h4 className="font-bold text-[#111827]">{p.title}</h4>
+                  <p className="mt-1 text-xs text-[#6B7280]">{p.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-          <h3 className="relative text-sm font-semibold uppercase tracking-[0.14em] text-[#0C3C5C]">
-            Perfil ALIDIA
-          </h3>
+          {/* Columna Derecha: Tarjeta de Perfil Institucional */}
+          <motion.div variants={item} className="relative">
+            <div className="relative overflow-hidden rounded-3xl border border-[#E5E7EB] bg-linear-to-b from-white to-gray-50 p-8 shadow-2xl shadow-blue-900/5 md:p-10">
+              {/* Decoración interna */}
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#0C3C5C]/5 blur-2xl" />
+              
+              <div className="relative flex items-center gap-3 mb-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C3C5C] text-white">
+                  <Users className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-[#111827] tracking-tight">
+                  Perfil ALIDIA
+                </h3>
+              </div>
 
-          <ul className="relative mt-5 space-y-4 text-sm leading-relaxed text-[#374151]">
-            <li className="border-l-2 border-[#0C3C5C]/35 pl-3">
-              Integracion entre academia, tecnologia y territorio.
-            </li>
-            <li className="border-l-2 border-[#0C3C5C]/35 pl-3">
-              Compromiso con soluciones utiles para El Oro.
-            </li>
-            <li className="border-l-2 border-[#0C3C5C]/35 pl-3">
-              Rigor institucional y vocacion de servicio publico.
-            </li>
-          </ul>
+              <ul className="space-y-6">
+                {[
+                  { 
+                    label: "Integración", 
+                    text: "Sinergia real entre academia, tecnología y territorio.",
+                    icon: <Handshake className="w-5 h-5 text-[#0C3C5C]" />
+                  },
+                  { 
+                    label: "Utilidad Social", 
+                    text: "Compromiso con soluciones prácticas para la provincia de El Oro.",
+                    icon: <ShieldCheck className="w-5 h-5 text-[#0C3C5C]" />
+                  },
+                  { 
+                    label: "Enfoque Humano", 
+                    text: "IA responsable con vocación de servicio público y ética.",
+                    icon: <Users className="w-5 h-5 text-[#0C3C5C]" />
+                  }
+                ].map((feature, idx) => (
+                  <li key={idx} className="flex gap-4">
+                    <div className="mt-1 flex-shrink-0">{feature.icon}</div>
+                    <div>
+                      <span className="block font-bold text-[#0C3C5C] text-sm uppercase tracking-wider">{feature.label}</span>
+                      <p className="mt-1 text-gray-600 text-sm leading-snug">{feature.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
 
-          <div className="relative mt-6 rounded-xl border border-[#DDE4EA] bg-white/85 p-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#0C3C5C]">
-              Enfoque
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">
-              Desarrollo responsable de inteligencia artificial con utilidad social y pertinencia
-              regional.
-            </p>
-          </div>
-        </motion.aside>
+              <div className="mt-10 rounded-2xl bg-[#0C3C5C] p-6 text-white shadow-lg shadow-[#0C3C5C]/20">
+                <p className="text-xs font-bold uppercase tracking-widest opacity-70">Nuestro Enfoque</p>
+                <p className="mt-2 text-sm font-medium leading-relaxed">
+                  Desarrollamos IA con pertinencia regional, asegurando que la innovación no deje a nadie atrás.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </motion.section>
   );
