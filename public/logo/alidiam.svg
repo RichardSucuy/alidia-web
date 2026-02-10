@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 800 800"
+  width="800"
+  height="800"
+  role="img"
+  aria-label="ALIDIA logo"
+>
+  <defs>
+    <style>
+      .stroke {
+        stroke: #0C3C5C;
+        stroke-width: 40; /* Un poco más gruesa para que coincida con Arial Black */
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+      .node {
+        fill: #0C3C5C;
+      }
+      .text {
+        fill: #0C3C5C;
+        /* Priorizamos Arial Black */
+        font-family: "Arial Black", Gadget, sans-serif;
+        font-weight: 900;
+        letter-spacing: 5px;
+      }
+    </style>
+  </defs>
+
+  <path class="stroke" d="M 220 520 L 400 160 L 580 520" />
+  <line class="stroke" x1="295" y1="380" x2="505" y2="380" />
+
+  <circle class="node" cx="400" cy="160" r="40" /> <circle class="node" cx="400" cy="380" r="40" /> <circle class="node" cx="220" cy="520" r="40" /> <circle class="node" cx="580" cy="520" r="40" /> <text
+    class="text"
+    x="400"
+    y="680" 
+    font-size="120"
+    text-anchor="middle"
+  >
+    ALIDIA
+  </text>
+</svg>
