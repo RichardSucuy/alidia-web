@@ -1,6 +1,14 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
+
+/**
+ * Paleta de colores aplicada:
+ * Primario: #0C3C5C (Usado para iconos de acción principal)
+ * Texto Medio: #4B5563 (Usado para estados neutrales)
+ * Éxito: #10B981 (Opcional para estados activos)
+ */
 
 export const ChatIcons: Record<string, ReactNode> = {
   close: (
@@ -9,13 +17,13 @@ export const ChatIcons: Record<string, ReactNode> = {
       height="20"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
+      stroke="#4B5563" // Texto medio
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className="hover:stroke-[#EF4444] transition-colors" // Cambio a color de error al hacer hover
     >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
+      <path d="M18 6L6 18M6 6l12 12" />
     </svg>
   ),
 
@@ -25,13 +33,13 @@ export const ChatIcons: Record<string, ReactNode> = {
       height="20"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
+      stroke="#0C3C5C" // Color Primario
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M22 2L11 13" />
-      <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+      <path d="m22 2-7 20-4-9-9-4Z" />
+      <path d="M22 2 11 13" />
     </svg>
   ),
 
@@ -41,7 +49,7 @@ export const ChatIcons: Record<string, ReactNode> = {
       height="20"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
+      stroke="#4B5563" // Texto medio
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -58,32 +66,96 @@ export const ChatIcons: Record<string, ReactNode> = {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
+      stroke="#0C3C5C" // Color Primario
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z" />
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
   ),
 
   bot: (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="8" width="18" height="12" rx="3" />
-      <path d="M12 8V5" />
-      <circle cx="12" cy="3" r="2" />
-      <circle cx="8" cy="14" r="1.5" fill="currentColor" />
-      <circle cx="16" cy="14" r="1.5" fill="currentColor" />
-      <path d="M9 18h6" />
-    </svg>
+    <div className="relative flex items-center justify-center w-8 h-8">
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Órbita Exterior - Representa la red neuronal */}
+        <motion.circle
+          cx="12"
+          cy="12"
+          r="9"
+          stroke="#0C3C5C"
+          strokeWidth="1.2"
+          strokeDasharray="15 45" // Crea un efecto de segmentos
+          animate={{ rotate: 360 }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+
+        {/* Órbita Media - Movimiento inverso para profundidad */}
+        <motion.circle
+          cx="12"
+          cy="12"
+          r="6"
+          stroke="#0C3C5C"
+          strokeWidth="1.5"
+          strokeDasharray="10 30"
+          opacity="0.6"
+          animate={{ rotate: -360 }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+
+        {/* El Núcleo - El centro de la IA */}
+        <motion.path
+          d="M12 8L13.5 10.5L16 12L13.5 13.5L12 16L10.5 13.5L8 12L10.5 10.5L12 8Z"
+          fill="#0C3C5C"
+          animate={{
+            filter: [
+              "drop-shadow(0 0 2px #0C3C5C)",
+              "drop-shadow(0 0 6px #0C3C5C)",
+              "drop-shadow(0 0 2px #0C3C5C)",
+            ],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        {/* Partículas de datos fluyendo */}
+        <motion.circle
+          cx="12"
+          cy="3"
+          r="1.5"
+          fill="#10B981" // Color de éxito para dar un toque de "vida/activación"
+          animate={{
+            offsetDistance: ["0%", "100%"],
+            opacity: [0, 1, 1, 0]
+          }}
+          style={{
+            offsetPath: "path('M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z')",
+            position: "absolute"
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      </svg>
+    </div>
   ),
 };

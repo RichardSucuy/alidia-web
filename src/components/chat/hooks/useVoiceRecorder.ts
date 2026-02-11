@@ -14,15 +14,21 @@ function pickExtension(mimeType: string) {
   return 'webm';
 }
 
+const MAX_DURATION_MS = 5 * 60 * 1000; // 5 minutos
+
 export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
   const [micSupported, setMicSupported] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [audioError, setAudioError] = useState('');
+  const [seconds, setSeconds] = useState(0);
+  const [maxDurationReached, setMaxDurationReached] = useState(false);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const startTimestampRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     setMicSupported(
@@ -36,8 +42,28 @@ export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
         mediaRecorderRef.current?.stop();
       }
       mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, []);
+
+  function updateTimer() {
+    if (!startTimestampRef.current) return;
+
+    const elapsed = Date.now() - startTimestampRef.current;
+    const elapsedSeconds = Math.floor(elapsed / 1000);
+
+    setSeconds(elapsedSeconds);
+
+    if (elapsed >= MAX_DURATION_MS) {
+      setMaxDurationReached(true);
+      stopRecording();
+      return;
+    }
+
+    animationFrameRef.current = requestAnimationFrame(updateTimer);
+  }
 
   async function transcribeAudio(blob: Blob, mimeType: string) {
     setIsTranscribing(true);
@@ -88,6 +114,8 @@ export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
 
     try {
       setAudioError('');
+      setMaxDurationReached(false);
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
 
@@ -107,12 +135,18 @@ export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
 
       mediaRecorderRef.current = recorder;
       audioChunksRef.current = [];
+      startTimestampRef.current = Date.now();
+      setSeconds(0);
 
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) audioChunksRef.current.push(e.data);
       };
 
       recorder.onstop = () => {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+
         const type = recorder.mimeType || 'audio/webm';
         const blob = new Blob(audioChunksRef.current, { type });
         audioChunksRef.current = [];
@@ -120,11 +154,14 @@ export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
         mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
         mediaStreamRef.current = null;
 
+        startTimestampRef.current = null;
+
         void transcribeAudio(blob, type);
       };
 
       recorder.start();
       setIsRecording(true);
+      animationFrameRef.current = requestAnimationFrame(updateTimer);
     } catch {
       setAudioError('No se pudo acceder al micrófono.');
       setIsRecording(false);
@@ -146,6 +183,8 @@ export function useVoiceRecorder({ onTranscription }: UseVoiceRecorderParams) {
     isRecording,
     isTranscribing,
     audioError,
+    seconds,
+    maxDurationReached,
     toggleRecording,
   };
 }

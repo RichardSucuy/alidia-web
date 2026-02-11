@@ -1,6 +1,7 @@
 'use client';
 
-import { ReactNode, RefObject, useState, useEffect } from 'react';
+import { ReactNode, RefObject, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -11,7 +12,7 @@ type ChatPanelProps = {
   messages: Message[];
   loading: boolean;
   isTranscribing: boolean;
-  isSpeaking: boolean;    // <--- Nueva Prop para la animación
+  isSpeaking: boolean;
   audioError: string;
   input: string;
   onInputChange: (v: string) => void;
@@ -26,6 +27,8 @@ type ChatPanelProps = {
   scrollRef: RefObject<HTMLDivElement | null>;
   Icons: Record<string, ReactNode>;
   onClose: () => void;
+  seconds: number;
+  maxDurationReached: boolean;
 };
 
 export function ChatPanel({
@@ -33,32 +36,20 @@ export function ChatPanel({
   loading,
   isTranscribing,
   isSpeaking,
-  audioError,
   input,
   onInputChange,
   onSend,
   onToggleRecording,
-  resumeAudio,
   stopAudio,
   isMuted,
   onToggleMute,
   isRecording,
-  micSupported,
   scrollRef,
   Icons,
   onClose,
+  seconds,
+  maxDurationReached,
 }: ChatPanelProps) {
-  const [seconds, setSeconds] = useState(0);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isRecording) {
-      interval = setInterval(() => setSeconds((p) => p + 1), 1000);
-    } else {
-      setSeconds(0);
-    }
-    return () => clearInterval(interval);
-  }, [isRecording]);
 
   const formatTime = (s: number) => {
     const mins = Math.floor(s / 60);
@@ -66,107 +57,181 @@ export function ChatPanel({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  return (
-    <div className="fixed bottom-20 right-4 z-50 flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl border border-slate-200 w-[75vw] h-[400px] max-h-[50vh] sm:relative sm:bottom-0 sm:right-0 sm:h-[420px] sm:w-[280px] animate-in fade-in slide-in-from-right-4 duration-300">
-      
-      {/* HEADER */}
-      <div className="flex items-center justify-between bg-[#0C3C5C] px-3 py-2 text-white shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="scale-75 brightness-110">{Icons.bot}</div>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-bold leading-tight uppercase tracking-tight">ALIDIA AI</span>
+  const isFirstRender = useRef(true);
 
-            {/* INDICADOR VISUAL DE VOZ (3 BARRAS) */}
-            {isSpeaking && !isMuted && (
-              <div className="flex items-end gap-[2px] h-3 mb-0.5 ml-1">
-                {/* Barra 1 */}
-                <div className="w-[2px] bg-emerald-400 animate-[bounce_0.8s_infinite] h-2" />
-                {/* Barra 2 - Más alta y con retraso */}
-                <div className="w-[2px] bg-emerald-400 animate-[bounce_0.8s_infinite_0.2s] h-3" />
-                {/* Barra 3 - Con más retraso */}
-                <div className="w-[2px] bg-emerald-400 animate-[bounce_0.8s_infinite_0.4s] h-1.5" />
-              </div>
-            )}
+  useEffect(() => {
+    if (!scrollRef?.current) return;
+
+    scrollRef.current.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: isFirstRender.current ? 'auto' : 'smooth',
+    });
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [messages, isTranscribing]);
+
+  return (
+    <div className="relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-2xl border border-[#0C3C5C]/10 w-[340px] h-[520px] font-sans">
+
+      {/* HEADER */}
+      <div className="flex items-center justify-between border-b border-[#0C3C5C]/5 px-5 py-4 bg-white">
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0C3C5C]/5 text-[#0C3C5C]">
+            {Icons.node || Icons.bot}
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-[#0C3C5C] tracking-tight">
+              ALIDIA AI
+            </span>
+            <div className="flex items-center gap-1.5">
+              {isSpeaking && !isMuted ? (
+                <div className="flex gap-[2px]">
+                  {[1, 2, 3].map((i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ height: [4, 10, 4] }}
+                      transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }}
+                      className="w-0.5 bg-[#0C3C5C] rounded-full"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <span className="text-[10px] text-gray-400 font-medium lowercase">
+                  en línea
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-0.5">
-          <button 
-            onClick={() => { stopAudio(); onToggleMute(); if (isMuted) resumeAudio(); }}
-            className={`p-1.5 rounded-md transition-all ${isMuted ? 'text-red-400 bg-red-500/10' : 'text-emerald-400 hover:bg-white/10'}`}
+        <div className="flex items-center gap-1">
+          <button
+            onClick={onToggleMute}
+            className={`p-2 rounded-xl transition-all active:scale-90 ${
+              isMuted
+                ? 'text-red-500 bg-red-50'
+                : 'text-[#0C3C5C] hover:bg-[#0C3C5C]/5'
+            }`}
           >
             {isMuted ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
+              </svg>
             ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+              </svg>
             )}
           </button>
-          <button onClick={onClose} className="p-1.5 hover:bg-white/10 rounded-full transition-colors active:scale-90">
-            <div className="scale-75">{Icons.close}</div>
+          <button
+            onClick={onClose}
+            className="p-2 text-gray-300 hover:text-gray-500 transition-colors"
+          >
+            <div className="scale-90">{Icons.close}</div>
           </button>
         </div>
       </div>
 
       {/* MENSAJES */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#F8FAFC] px-3 py-4 space-y-3">
-        {messages.map((m, i) => (
-          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] rounded-xl px-3 py-1.5 text-[12px] shadow-sm leading-snug ${
-                m.role === 'user' ? 'bg-[#0C3C5C] text-white rounded-tr-none' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none'
-              }`}>
-              {m.content}
-              {/* Onda minúscula al final del último mensaje del bot si está hablando */}
-              {m.role === 'assistant' && i === messages.length - 1 && isSpeaking && !isMuted && (
-                <span className="inline-flex items-end gap-[1px] ml-2 h-2">
-                  <span className="w-[1.5px] h-1.5 bg-[#0C3C5C]/40 animate-bounce" />
-                  <span className="w-[1.5px] h-2 bg-[#0C3C5C]/40 animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-[1.5px] h-1.5 bg-[#0C3C5C]/40 animate-bounce [animation-delay:0.4s]" />
-                </span>
-              )}
-            </div>
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto bg-gray-50/50 px-4 py-6 space-y-6 scroll-smooth"
+      >
+        <AnimatePresence initial={false}>
+          {messages.map((m, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[85%] px-4 py-2.5 text-[13px] leading-relaxed shadow-sm ${
+                  m.role === 'user'
+                    ? 'bg-[#0C3C5C] text-white rounded-[20px] rounded-tr-none'
+                    : 'bg-white border border-gray-100 text-gray-700 rounded-[20px] rounded-tl-none'
+                }`}
+              >
+                {m.content}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        {maxDurationReached && (
+          <div className="text-[11px] text-red-500 font-medium">
+            Límite máximo de 5 minutos alcanzado.
           </div>
-        ))}
+        )}
+
         {(loading || isTranscribing) && (
-          <div className="flex items-center gap-1.5 px-1 opacity-50">
-            <span className="h-1 w-1 bg-slate-400 rounded-full animate-bounce" />
-            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">
-              {isTranscribing ? 'Escuchando' : 'Alidia piensa'}
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-1.5 px-1">
+              <span className="h-1.5 w-1.5 bg-[#0C3C5C] rounded-full animate-bounce [animation-duration:0.8s]" />
+              <span className="h-1.5 w-1.5 bg-[#0C3C5C] rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.2s]" />
+              <span className="h-1.5 w-1.5 bg-[#0C3C5C] rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.4s]" />
+            </div>
+            <span className="text-[10px] font-bold text-[#0C3C5C]/60 uppercase tracking-widest pl-1">
+              {isTranscribing ? 'Transcribiendo...' : 'Analizando'}
             </span>
           </div>
         )}
       </div>
 
       {/* FOOTER */}
-      <div className="bg-white p-2 border-t">
-        <div className={`flex items-center gap-1 rounded-lg border border-slate-200 p-1 ${isRecording ? 'bg-red-50 border-red-200' : 'bg-slate-50'}`}>
+      <div className="p-4 bg-white">
+        <div
+          className={`flex items-center gap-2 rounded-[22px] border p-1.5 transition-all duration-300 ${
+            isRecording
+              ? 'border-red-100 bg-red-50/50'
+              : 'border-gray-200 bg-gray-50 focus-within:border-[#0C3C5C]/30 focus-within:bg-white'
+          }`}
+        >
           {isRecording ? (
-            <div className="flex flex-1 items-center gap-2 px-2 text-red-600">
-              <span className="h-1.5 w-1.5 rounded-full bg-red-600 animate-ping" />
-              <span className="text-[11px] font-bold tabular-nums">{formatTime(seconds)}</span>
+            <div className="flex flex-1 items-center gap-3 px-3 text-red-500">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+              </span>
+              <span className="text-[12px] font-bold tabular-nums tracking-tight">
+                {formatTime(seconds)}
+              </span>
+              <span className="text-[11px] font-medium opacity-70">
+                Grabando audio...
+              </span>
             </div>
           ) : (
             <input
               value={input}
               onChange={(e) => onInputChange(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && onSend()}
-              placeholder="Mensaje..."
-              className="flex-1 bg-transparent px-2 py-1 text-[12px] outline-none"
+              placeholder="¿Cómo puedo ayudarte?"
+              className="flex-1 bg-transparent px-3 py-2 text-[13px] outline-none text-gray-700 placeholder:text-gray-400"
             />
           )}
 
-          <div className="flex items-center">
-            <button 
-              onClick={() => {
-                if (!isRecording) stopAudio(); // <--- SI EMPIEZA A GRABAR, CALLA AL BOT
-                onToggleRecording();
-              }} 
-              className={`flex h-7 w-7 items-center justify-center rounded-md transition-all ${isRecording ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-200'}`}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => { if (!isRecording) stopAudio(); onToggleRecording(); }}
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all active:scale-90 ${
+                isRecording
+                  ? 'bg-red-500 text-white shadow-lg shadow-red-200'
+                  : 'text-gray-400 hover:text-[#0C3C5C] hover:bg-white'
+              }`}
             >
-              <div className="scale-75">{Icons.mic}</div>
+              <div className="scale-90">{Icons.mic}</div>
             </button>
+
             {!isRecording && (
-              <button onClick={onSend} disabled={!input.trim()} className="flex h-7 w-7 items-center justify-center rounded-md bg-[#0C3C5C] text-white disabled:opacity-20 ml-0.5">
-                <div className="scale-50">{Icons.send}</div>
+              <button
+                onClick={onSend}
+                disabled={!input.trim()}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0C3C5C] text-white disabled:opacity-0 disabled:scale-75 transition-all shadow-md shadow-[#0C3C5C]/20 active:scale-95"
+              >
+                <div className="scale-75 translate-x-0.5">{Icons.send}</div>
               </button>
             )}
           </div>
