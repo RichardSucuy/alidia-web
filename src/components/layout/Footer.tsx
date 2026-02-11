@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, ShieldCheck, Cpu } from 'lucide-react';
+import { Mail, MapPin, ShieldCheck, Cpu, ExternalLink  } from 'lucide-react';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -91,12 +91,19 @@ export function Footer() {
                     href="https://cedit.tech/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-xl font-black text-white hover:text-blue-300 transition-all tracking-wide underline decoration-blue-500/30 decoration-2 underline-offset-4"
+                    className="group/link inline-flex items-center gap-1.5 text-xl font-black text-white hover:text-blue-300 transition-all tracking-wide underline decoration-blue-500/30 decoration-2 underline-offset-4"
                   >
                     CEDIT
+                    <ExternalLink 
+                      size={18} 
+                      strokeWidth={3} 
+                      className="opacity-50 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all duration-300" 
+                    />
                   </a>
                 </div>
               </div>
+
+
             </div>
           </div>
         </div>
