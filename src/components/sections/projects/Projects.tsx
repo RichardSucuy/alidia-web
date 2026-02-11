@@ -47,6 +47,7 @@ export function Projects() {
           
           {/* PROYECTO 1: SIAM - Full Width Header con estilo Card */}
           <motion.div 
+            id="proyecto-siam"
             variants={item} 
             initial="hidden" 
             whileInView="show" 
@@ -151,7 +152,7 @@ export function Projects() {
           </motion.div>
 
           {/* PROYECTO 2: Investigación AID-CV (Lado izquierdo o centrado según el grid) */}
-          <motion.div variants={item} className="lg:col-span-12">
+          <motion.div id="proyecto-aid-cv"  variants={item} className="lg:col-span-12">
              <ResearchProjectWithGallery />
           </motion.div>
 
