@@ -126,9 +126,9 @@ export function WhatIs() {
       id="que-es-alidia"
       className="w-full bg-white px-6 py-24"
       variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.3 }}
+      initial={{ opacity: 0, y: 20 }}  
+      animate={{ opacity: 1, y: 0 }}  
+      transition={{ duration: 0.8 }} 
     >
       <div className="mx-auto max-w-7xl">
         {/* Encabezado */}
