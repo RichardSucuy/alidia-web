@@ -82,7 +82,7 @@ export function WhoWeAre() {
                 Nacemos en <span className="font-medium text-gray-900 text-bold">Machala, Ecuador</span>, como respuesta a la brecha tecnológica, buscando aterrizar la inteligencia artificial a las necesidades reales de nuestra provincia.
               </p>
               <p className="rounded-xl border-l-4 border-[#0C3C5C] bg-gray-50 p-4 italic">
-                "Actuamos como un puente entre el conocimiento técnico avanzado y la participación comunitaria."
+                Actuamos como un puente entre el conocimiento técnico avanzado y la participación comunitaria.
               </p>
             </div>
 
