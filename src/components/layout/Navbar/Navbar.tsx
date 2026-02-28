@@ -12,12 +12,12 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { href: '#que-es-alidia', label: 'Nosotros', icon: Info },
-  { href: '#quienes-somos', label: 'Identidad', icon: Users },
-  { href: '#mision-vision', label: 'Estrategia', icon: Target },
-  { href: '#lineas-accion', label: 'Acción', icon: Rocket },
-  { href: '#proyectos', label: 'Proyectos', icon: Briefcase },
-  { href: '#equipo', label: 'Equipo', icon: Users },
+  { href: '/#que-es-alidia', label: 'Nosotros', icon: Info },
+  { href: '/#quienes-somos', label: 'Identidad', icon: Users },
+  { href: '/#mision-vision', label: 'Estrategia', icon: Target },
+  { href: '/#lineas-accion', label: 'Acción', icon: Rocket },
+  { href: '/#proyectos', label: 'Proyectos', icon: Briefcase },
+  { href: '/#equipo', label: 'Equipo', icon: Users },
 ];
 
 export function Navbar() {
@@ -43,7 +43,7 @@ export function Navbar() {
           
           {/* Logo con efecto hover */}
           <Link 
-            href="#inicio" 
+            href="/#inicio" 
             className="group flex items-center gap-2 transition-transform active:scale-95"
           >
             <div className="relative h-10 w-auto overflow-hidden">

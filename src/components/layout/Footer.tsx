@@ -79,6 +79,26 @@ export function Footer() {
                 />
               </div>
             </a>
+            {/* TikTok */}
+            <a
+              href="https://www.tiktok.com/@alidia.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok de ALIDIA"
+              className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all">
+              <span className="text-sm font-bold text-blue-100 group-hover:text-white transition-colors">
+                @alidia.ec
+              </span>
+
+              <div className="p-2 rounded-lg bg-white/10 group-hover:bg-black/40 transition-colors shrink-0">
+                <Image
+                  src="/socialmedia/tiktok.svg"
+                  alt="TikTok"
+                  width={20}
+                  height={20}
+                  className="opacity-70 group-hover:opacity-100 transition-opacity"/>
+              </div>
+            </a>
 
           </div>
         </div>
@@ -125,13 +145,26 @@ export function Footer() {
         </div>
 
         {/* --- BARRA INFERIOR --- */}
-        <div className="mt-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+        <div className="mt-12 flex flex-col items-center gap-4 opacity-60 hover:opacity-100 transition-opacity duration-500">
+
           <div className="h-px w-20 bg-white/20" />
+
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4" />
-            <p className="text-[10px] font-bold uppercase tracking-widest">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-center">
               © {year} ALIDIA. Ética • Soberanía • Comunidad
             </p>
+          </div>
+
+          {/* Enlaces legales */}
+          <div className="flex items-center gap-6 text-[11px] font-semibold tracking-wide text-blue-100">
+            <a href="/privacy" className="hover:text-white transition-colors">
+              Política de Privacidad
+            </a>
+            <span className="opacity-30">|</span>
+            <a href="/terms" className="hover:text-white transition-colors">
+              Términos y Condiciones
+            </a>
           </div>
         </div>
 
