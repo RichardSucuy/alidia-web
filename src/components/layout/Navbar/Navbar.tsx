@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Cpu, Info, Target, Rocket, Users, Briefcase, Send } from 'lucide-react';
+import { Menu, X, Info, Target, Rocket, Users, Briefcase, Send } from 'lucide-react';
 
 type NavItem = {
   href: string;
@@ -34,8 +34,8 @@ export function Navbar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-60 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/70 backdrop-blur-xl shadow-sm py-3' 
+          isScrolled
+            ? 'bg-white/70 backdrop-blur-xl shadow-sm py-3'
             : 'bg-white py-5'
         }`}
       >
@@ -47,10 +47,10 @@ export function Navbar() {
             className="group flex items-center gap-2 transition-transform active:scale-95"
           >
             <div className="relative h-10 w-auto overflow-hidden">
-              <img 
-                src="/logo/alidia-horizontal.png" 
-                alt="ALIDIA" 
-                className="h-full w-auto object-contain transition-filter duration-300 group-hover:brightness-110" 
+              <img
+                src="/logo/alidia-horizontal.png"
+                alt="ALIDIA"
+                className="h-full w-auto object-contain transition-filter duration-300 group-hover:brightness-110"
               />
             </div>
           </Link>
@@ -65,33 +65,19 @@ export function Navbar() {
               >
                 <item.icon className="h-4 w-4 opacity-0 transition-all -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-blue-500" />
                 <span>{item.label}</span>
-                {/* Indicador de hover inferior */}
                 <span className="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-blue-500 transition-all group-hover:w-full" />
               </a>
             ))}
-            
 
-
-            {/* Botón de Acción Principal (Opcional) */}
-            {/* <Link 
-              href="#contacto" 
-              className="ml-4 flex items-center gap-2 rounded-full bg-[#0c3c5c] px-5 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
-            >
-              <Cpu className="h-4 w-4" />
-              Conectar
-            </Link> */}
-
-            <Link 
-              href="mailto:contacto@alidia.org" // Cambia el href para que abra Gmail directamente
+            {/* CTA: corrección de Link → a para mailto */}
+            <a
+              href="mailto:contacto@alidia.org"
               className="ml-4 flex items-center gap-2 rounded-full bg-[#0c3c5c] px-5 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-blue-600"
             >
-              <Send className="h-4 w-4" /> {/* <--- AQUÍ CAMBIAS EL ICONO */}
+              <Send className="h-4 w-4" />
               Conectar
-            </Link>
-
-
+            </a>
           </nav>
-          
 
           {/* Botón Menú Móvil */}
           <button
@@ -103,7 +89,7 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Menú Móvil con Animación */}
+        {/* Menú Móvil */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -127,14 +113,24 @@ export function Navbar() {
                     <span className="h-2 w-2 rounded-full bg-blue-200" />
                   </a>
                 ))}
+
+                {/* CTA móvil */}
+                <a
+                  href="mailto:contacto@alidia.org"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-[#0c3c5c] px-5 py-4 text-base font-black uppercase tracking-widest text-white active:bg-blue-700"
+                >
+                  <Send className="h-5 w-5" />
+                  Conectar
+                </a>
               </nav>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      {/* Spacer para evitar saltos de contenido */}
-      <div className={isScrolled ? "h-[64px]" : "h-[80px] transition-all duration-500"} />
+      {/* Spacer */}
+      <div className={isScrolled ? 'h-[64px]' : 'h-[80px] transition-all duration-500'} />
     </>
   );
 }
