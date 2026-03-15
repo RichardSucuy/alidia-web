@@ -5,14 +5,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/registro-odd-mach-2026',
-        destination: 'https://forms.gle/G2rSNQe9rWVU5Bqh6',
+        source: '/registro-odd',
+        destination: 'https://forms.gle/8n9ABo1Vio33USuK8',
         permanent: false,
       },
     ];
-  }
+  },
 };
-
-
 
 export default nextConfig;
