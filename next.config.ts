@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         destination: 'https://forms.gle/8n9ABo1Vio33USuK8',
         permanent: false,
       },
+      {
+        source: '/registro-ait',
+        destination: 'https://forms.gle/BqjDGocR5DxHPsk59', 
+        permanent: false,
+      },
     ];
   },
 };
