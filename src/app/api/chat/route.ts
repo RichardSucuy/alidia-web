@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     // 1 intento + 1 reintento corto si 429 (sin complicarlo)
     const attempt1 = await groqChat({
       apiKey,
-      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+      model: 'qwen/qwen3.8-27b',
       messages,
       temperature: 0.2,
       maxTokens: 500,
@@ -99,7 +99,7 @@ export async function POST(req: Request) {
       await sleep(900);
       const attempt2 = await groqChat({
         apiKey,
-        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+        model: 'qwen/qwen3.8-27b',
         messages,
         temperature: 0.2,
         maxTokens: 500,
