@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: 'https://forms.gle/BqjDGocR5DxHPsk59', 
         permanent: false,
       },
+      {
+        source: '/aplicar-vc',
+        destination: 'https://forms.gle/DLwcZ7aXvaupEm5H6', 
+        permanent: false,
+      },
     ];
   },
 };
