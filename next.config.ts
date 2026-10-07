@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         destination: 'https://forms.gle/DLwcZ7aXvaupEm5H6', 
         permanent: false,
       },
+      {
+        source: '/registro-ate',
+        destination: 'https://forms.gle/jWN3NUp7XaaNx14H8', 
+        permanent: false,
+      },
     ];
   },
 };
